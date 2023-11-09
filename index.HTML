@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>QR code generator</title>
+    </head>
+
+    <body>
+        <div id="qrcode"></div>
+        <div id="test"></div>
+
+        <!-- QRCode.js-->>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script type="text/javascript">
+        function drawQRCode(codeURL){
+            new QRCode(document.getElementById("qrcode"), codeURL);
+        }
+
+        var paramIndex = document.URL.indexOf("?QRcode=");
+        var varURL = document.URL.substr(paramIndex+1);
+        drawQRCode(testURL);
+        document.getElementById("test").innerHTML = varURL;
+
+        </script>
+
+    </body>
+</html>
