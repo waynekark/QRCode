@@ -9,8 +9,7 @@
     </head>
 
     <body>
-        <div id="qrcode"></div>
-        <div id="test"></div>
+        <div id="qrcode">No URL parameter has been found</div>
 
         <!-- QRCode.js-->>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -20,10 +19,13 @@
             new QRCode(document.getElementById("qrcode"), codeURL);
         }
 
-        var paramIndex = document.URL.indexOf("?QRcode=");
-        var varURL = document.URL.substr(paramIndex+1);
-        drawQRCode(testURL);
-        document.getElementById("test").innerHTML = varURL;
+        var searchString = "?QRCode="
+        if (document.URL.includes(searchString)) {
+            var paramIndex = document.URL.indexOf(searchString);
+            var paramURL = document.URL.substr(paramIndex + searchString.length);
+            document.getElementById("qrcode").innerHTML = paramURL;            
+            drawQRCode(paramURL);
+        }
 
         </script>
 
