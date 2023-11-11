@@ -1,10 +1,10 @@
 # QRcode
-This is a static webpage that generates QR codes for websites
+This is a static webpage that generates QR codes
 
-## Generate QRCodes directly from URL Variables
-The page was originally designed to generate QR codes for websites passed as a URL variable
+## Generate QRCodes directly from URL variables
+The page was originally designed to generate QR codes for websites (or other text) passed as a URL variable
 To generate a QRCode for a website: https://example.com
-* The website should be passed as a URL variable "QRCode": ?QRCode=https://example.com
+* The website should be passed as a URL variable "QRCode": ?QRCode=https://example.com (replacing the website with the text of your choice)
 * This should be appended to the end of the URL in the address bar when loading the page
 * eg: https://waynekark.github.io/QRcode/?QRCode=https://example.com
 
