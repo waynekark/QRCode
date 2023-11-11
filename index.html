@@ -45,6 +45,7 @@
         if (document.URL.includes("?")) {
             URLparameters = extractURLParameters(document.URL)
             if (URLparameters["QRCode"]) {
+                document.getElementById("qrcode").innerHTML = ""
                 drawQRCode(URLparameters["QRCode"]);
             }
         }
