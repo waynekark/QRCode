@@ -11,44 +11,62 @@
     <body>
         <div id="qrcode">
             <h3>QR Code Generator</h3>
-            <p>This page generates QR codes directly from URL variables</p>
-            <p>To generate a QR code for a website (eg https://example.com), add ?QRCode=https://example.com to the URL in the address bar and reload the page</p>
+            <label for="formURL">Generate QRCode from URL:</label>
+            <input type="text" id="formURL">
+            <br>
+            <br>
+
+            <p><strong>This page can also generate QR codes directly for websites passed as URL variables:</strong><br>
+            To generate a QR code for a website (eg https://example.com) using URL variables, add "?QRCode=https://example.com" (replacing with the website of your choice) to the URL in the address bar and reload the page</p>
         </div>
 
         <!-- QRCode.js-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <script type="text/javascript">
-        function drawQRCode(codeURL){
-            // Draw QRCode
-            new QRCode(document.getElementById("qrcode"), codeURL);
-        }
+            var QRCodeElement;
 
-        function extractURLParameters(URLstring) {
-            // Extract parameters from URL into a key-value object
-            var URLparameters = {}
-
-            // Extract parameters substring from URL following "?"
-            // Then separate out individual URL parameters (split substring into array using "&" separator)
-            // Then convert URL parameter strings into key-value pairs
-            var paramIndex = URLstring.indexOf("?");
-            for (let i of URLstring.substr(paramIndex+1).split("&")) {
-                let j=i.split("=");
-                URLparameters[j[0]]=j[1];
+            function drawQRCode(codeURL){
+                // Draw (or replace) QRCode
+                if(QRCodeElement){
+                    QRCodeElement.makeCode(codeURL);
+                }
+                else{
+                    QRCodeElement = new QRCode(document.getElementById("qrcode"), codeURL);
+                }
+                console.log("QR Code generated for: " + codeURL)
             }
 
-            // Return URL parameters as a dictionary of key-value pairs
-            console.log(URLparameters);
-            return URLparameters;
-        }
+            function extractURLParameters(URLstring) {
+                // Extract parameters from URL into a key-value object
+                var URLparameters = {}
 
-        if (document.URL.includes("?")) {
-            URLparameters = extractURLParameters(document.URL)
-            if (URLparameters["QRCode"]) {
-                document.getElementById("qrcode").innerHTML = ""
-                drawQRCode(URLparameters["QRCode"]);
+                // Extract parameters substring from URL following "?"
+                // Then separate out individual URL parameters (split substring into array using "&" separator)
+                // Then convert URL parameter strings into key-value pairs
+                var paramIndex = URLstring.indexOf("?");
+                for (let i of URLstring.substr(paramIndex+1).split("&")) {
+                    let j=i.split("=");
+                    URLparameters[j[0]]=j[1];
+                }
+
+                // Return URL parameters as a dictionary of key-value pairs
+                console.log(URLparameters);
+                return URLparameters;
             }
-        }
+
+            if (document.URL.includes("?")) {
+                URLparameters = extractURLParameters(document.URL)
+                if (URLparameters["QRCode"]) {
+                    document.getElementById("qrcode").innerHTML = ""
+                    drawQRCode(URLparameters["QRCode"]);
+                }
+                else{
+                    document.getElementById("formURL").addEventListener("keyup", function(){
+                        drawQRCode(document.getElementById("formURL").value)
+                    })
+                }
+            }
 
         </script>
     </body>
