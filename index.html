@@ -9,25 +9,46 @@
     </head>
 
     <body>
-        <div id="qrcode">No URL parameter has been found</div>
+        <div id="qrcode">
+            <h3>QR Code Generator</h3>
+            <p>This page generates QR codes directly from URL variables</p>
+            <p>To generate a QR code for a website (eg https://example.com), add ?QRCode=https://example.com to the URL in the address bar and reload the page</p>
+        </div>
 
-        <!-- QRCode.js-->>
+        <!-- QRCode.js-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <script type="text/javascript">
         function drawQRCode(codeURL){
+            // Draw QRCode
             new QRCode(document.getElementById("qrcode"), codeURL);
         }
 
-        var searchString = "?QRCode="
-        if (document.URL.includes(searchString)) {
-            var paramIndex = document.URL.indexOf(searchString);
-            var paramURL = document.URL.substr(paramIndex + searchString.length);
-            document.getElementById("qrcode").innerHTML = paramURL;            
-            drawQRCode(paramURL);
+        function extractURLParameters(URLstring) {
+            // Extract parameters from URL into a key-value object
+            var URLparameters = {}
+
+            // Extract parameters substring from URL following "?"
+            // Then separate out individual URL parameters (split substring into array using "&" separator)
+            // Then convert URL parameter strings into key-value pairs
+            var paramIndex = URLstring.indexOf("?");
+            for (let i of URLstring.substr(paramIndex+1).split("&")) {
+                let j=i.split("=");
+                URLparameters[j[0]]=j[1];
+            }
+
+            // Return URL parameters as a dictionary of key-value pairs
+            console.log(URLparameters);
+            return URLparameters;
+        }
+
+        if (document.URL.includes("?")) {
+            URLparameters = extractURLParameters(document.URL)
+            if (URLparameters["QRCode"]) {
+                drawQRCode(URLparameters["QRCode"]);
+            }
         }
 
         </script>
-
     </body>
 </html>
