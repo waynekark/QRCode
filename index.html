@@ -11,13 +11,13 @@
     <body>
         <div id="qrcode">
             <h3>QR Code Generator</h3>
-            <label for="formURL">Generate QRCode from URL:</label>
-            <input type="text" id="formURL">
+            <label for="formString">Generate QRCode for:</label>
+            <input type="text" id="formString">
             <br>
             <br>
 
-            <p><strong>This page can also generate QR codes directly for websites passed as URL variables:</strong><br>
-            To generate a QR code for a website (eg https://example.com) using URL variables, add "?QRCode=https://example.com" (replacing with the website of your choice) to the URL in the address bar and reload the page</p>
+            <p><strong>This page can also generate QR codes directly for websites (or other text) passed as URL variables:</strong><br>
+            To generate a QR code for a website (eg https://example.com) using URL variables, add "?QRCode=https://example.com" (replacing with the website (or other text) of your choice) to the URL in the address bar and reload the page</p>
         </div>
 
         <!-- QRCode.js-->
@@ -26,15 +26,15 @@
         <script type="text/javascript">
             var QRCodeElement;
 
-            function drawQRCode(codeURL){
+            function drawQRCode(codeString){
                 // Draw (or replace) QRCode
                 if(QRCodeElement){
-                    QRCodeElement.makeCode(codeURL);
+                    QRCodeElement.makeCode(codeString);
                 }
                 else{
-                    QRCodeElement = new QRCode(document.getElementById("qrcode"), codeURL);
+                    QRCodeElement = new QRCode(document.getElementById("qrcode"), codeString);
                 }
-                console.log("QR Code generated for: " + codeURL)
+                console.log("QR Code generated for: " + codeString)
             }
 
             function extractURLParameters(URLstring) {
@@ -55,16 +55,17 @@
                 return URLparameters;
             }
 
+            // Add EventListener for text box - draw QRCode if anything is entered
+            document.getElementById("formString").addEventListener("keyup", function(){
+                drawQRCode(document.getElementById("formString").value)
+                })
+
+            // If URL includes URL parameter of "QRCode", then replace page contents with QR Code
             if (document.URL.includes("?")) {
                 URLparameters = extractURLParameters(document.URL)
                 if (URLparameters["QRCode"]) {
                     document.getElementById("qrcode").innerHTML = ""
                     drawQRCode(URLparameters["QRCode"]);
-                }
-                else{
-                    document.getElementById("formURL").addEventListener("keyup", function(){
-                        drawQRCode(document.getElementById("formURL").value)
-                    })
                 }
             }
 
