@@ -12,6 +12,6 @@ To generate a QRCode for a website: https://example.com
 The page includes a text box that allows QR codes to be generated from the contents of the text box. The QRCode updates every time a key is pressed inside the box.
 
 ## Self referencing QR code
-This repository also contains an HTML file "SelfQRCode.html" that creates a QR code to itself. The script can be added to any webpage to create self referencing QR codes. This is useful if you have a webpage that people might wish to be able to access on their own devices.
+This repository also contains an HTML file "SelfQRCode.html" that creates a QR code to itself. The script can be added to any webpage to create self referencing QR codes. This is useful if you have a webpage that people might wish to be able to access on their own devices, and you need an easy way of directing them to the correct page.
 
 _This is a static page deployed on GitHub pages, written in HTML with Javascript_
